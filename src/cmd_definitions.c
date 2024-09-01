@@ -13,6 +13,7 @@ const cmd_definition cmd_definitions[] = {
     {.name = "launch", .description = "Launch an app by Title ID", .arg_count = 1, .executor = &cmd_launch},
     {.name = "kill", .description = "Kill an app by Title ID", .arg_count = 1, .executor = &cmd_kill},
     {.name = "reboot", .description = "Reboot the console", .arg_count = 0, .executor = &cmd_reboot},
+    {.name = "shutdown", .description = "Turn the console off", .arg_count = 0, .executor = &cmd_shutdown},
     {.name = "screen", .description = "Turn the screen on or off", .arg_count = 1, .executor = &cmd_screen}
 };
 
@@ -74,9 +75,16 @@ void cmd_launch(char **arg_list, size_t arg_count, char *res_msg) {
   }
 }
 
-void cmd_reboot(char **arg_list, size_t arg_count, char *res_msg) {
+void cmd_reboot(char **arg_list, size_t arg_count, char *res_msg)
+{
   scePowerRequestColdReset();
   strcpy(res_msg, "Rebooting...\n");
+}
+
+void cmd_shutdown(char **arg_list, size_t arg_count, char *res_msg)
+{
+  scePowerRequestStandby();
+  strcpy(res_msg, "Shutting down...\n");
 }
 
 void cmd_screen(char **arg_list, size_t arg_count, char *res_msg) {

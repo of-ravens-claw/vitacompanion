@@ -21,7 +21,7 @@ size_t parse_cmd(char *cmd, size_t cmd_size, char **arg_list, size_t arg_max)
     //
     //
     // Yes, this is a hack, yes, I could probably do it in a better way, maybe later.
-    for (size_t i = 0; i < cmd_size; i++)
+    for (size_t i = (cmd_size - 4); i < cmd_size; i++)
     {
         if (cmd[i] == '\r')
         {
