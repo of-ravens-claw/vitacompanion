@@ -43,7 +43,7 @@ void cmd_help(char **arg_list, size_t arg_count, char *res_msg) {
 
   for (int i = 0; i < COUNT_OF(cmd_definitions); ++i) {
     sprintf(buf, "%-*s\t\t%s\n", longest_cmd, cmd_definitions[i].name, cmd_definitions[i].description);
-    strcat(res_msg, buf);
+    strncat(res_msg, buf, 512);
   }
 
 }

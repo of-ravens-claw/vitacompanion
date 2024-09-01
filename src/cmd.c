@@ -21,8 +21,22 @@ void cmd_handle(char* cmd, unsigned int cmd_size, char* res_msg)
 {
     char* arg_list[ARG_MAX];
 
+#if ENABLE_LOGGING == 1
+    sceClibPrintf("Dumping data (before): ");
+    for (int i = 0; i < cmd_size; i++)
+        sceClibPrintf("%02X ", (cmd[i] & 0xFF));
+    sceClibPrintf("\n");
+#endif
+
     size_t arg_count = parse_cmd(cmd, cmd_size, arg_list, ARG_MAX);
     const cmd_definition* cmd_def = cmd_get_definition(arg_list[0]);
+
+#if ENABLE_LOGGING == 1
+    sceClibPrintf("Dumping data (after): ");
+    for (int i = 0; i < cmd_size; i++)
+        sceClibPrintf("%02X ", (cmd[i] & 0xFF));
+    sceClibPrintf("\n");
+#endif
 
     if (cmd_def == NULL)
     {
@@ -65,7 +79,7 @@ int cmd_thread(unsigned int args, void* argp)
             char cmd[100] = { 0 };
             int size = sceNetRecv(client_sockfd, cmd, sizeof(cmd), 0);
 
-            char res_msg[60] = { 0 };
+            char res_msg[512] = { 0 }; // If you change the size here, change the size in `cmd_help` too!
 
             if (size >= 0)
                 cmd_handle(cmd, (unsigned int)size, res_msg);
